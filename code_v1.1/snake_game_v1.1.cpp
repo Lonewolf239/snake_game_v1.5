@@ -224,11 +224,11 @@ void Main_Menu() {
 	hightscore.close();
 	if (!Language) {
 		cout << "Лучший счёт: " << hight_score << endl << endl;
-		cout << "Добро пожаловать в мою вторую тестовую игру Snake_game_v1.0\n___________________________________________________________\nУправление:\nДвижение: WASD\nВыход: X\n___________________________________________________________\nПожалуйста перед началом игры прочти предупреждение\nНачать 1\nПредупреждение 2\nНастройки 3\nО разработчике 4\nРусский/English 5"  << endl << "\n_____________________\nУдалить все игровые файлы 0" << endl << endl;
+		cout << "Добро пожаловать в мою вторую тестовую игру Snake_game_v1.1\n___________________________________________________________\nУправление:\nДвижение: WASD\nВыход: X\n___________________________________________________________\nПожалуйста перед началом игры прочти предупреждение\nНачать 1\nПредупреждение 2\nНастройки 3\nО разработчике 4\nРусский/English 5"  << endl << "\n_____________________\nУдалить все игровые файлы 0" << endl << endl;
 	}
 	if (Language) {
 		cout << "High score: " << hight_score << endl << endl;
-		cout << "Welcome to my second test game Snake_game_v1.0\n_____________________________________________________________\nControls:\nMovement: WASD\nExit: X\n_____________________________________________________________\nPlease read the warning before starting the game\nStart 1\nWarning 2\nSettings 3\nAbout Developer 4\nРусский/English 5\n" << endl << "\n_____________________\nDelete all game files 0" << endl << endl;
+		cout << "Welcome to my second test game Snake_game_v1.1\n_____________________________________________________________\nControls:\nMovement: WASD\nExit: X\n_____________________________________________________________\nPlease read the warning before starting the game\nStart 1\nWarning 2\nSettings 3\nAbout Developer 4\nРусский/English 5\n" << endl << "\n_____________________\nDelete all game files 0" << endl << endl;
 	}
 	switch (_getch()) {
 	case '1':
