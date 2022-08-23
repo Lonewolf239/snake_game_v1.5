@@ -32,7 +32,7 @@ int main() {
 	setlocale(LC_CTYPE, "rus");
 	system("cls");
 	if (First_start) {
-		cout << " SSSS   NN  NN   AAAA   KK  KK  EEEEE\nSS      NNN NN  AA  AA  KK EE   EE\n SSSS   NN NNN  AAAAAA  KKKK    EEEE\n    SS  NN  NN  AA  AA  KK KK   EE\n SSSS   NN  NN  AA  AA  KK  KK  EEEEE\n\n GGGG    AAAA   MM   MM EEEEE\nGG      AA  AA  MMM MMM EE\nGG GGG  AAAAAA  MM M MM EEEE\nGG  GG  AA  AA  MM   MM EE\n GGGG   AA  AA  MM   MM EEEEE\n\n   11       0000\n 1111      00  00\n   11      00  00\n   11      00  00\n   11  **   0000" << endl << endl;
+		cout << " SSSS   NN  NN   AAAA   KK  KK  EEEEE\nSS      NNN NN  AA  AA  KK EE   EE\n SSSS   NN NNN  AAAAAA  KKKK    EEEE\n    SS  NN  NN  AA  AA  KK KK   EE\n SSSS   NN  NN  AA  AA  KK  KK  EEEEE\n\n GGGG    AAAA   MM   MM EEEEE\nGG      AA  AA  MMM MMM EE\nGG GGG  AAAAAA  MM M MM EEEE\nGG  GG  AA  AA  MM   MM EE\n GGGG   AA  AA  MM   MM EEEEE\n\n   11        11\n 1111      1111\n   11        11\n   11        11\n   11  **    11" << endl << endl;
 		system("pause");
 	}
 	fstream hightscore("C:/Windows/Temp/Hight_Score.txt");
