@@ -9,7 +9,7 @@ using namespace std;
 //основные игровые параметры
 bool GameOver, Start, Language = true, First_start = true, wall_killing = true;
 const int width = 40, height = 20, window_width = 60, window_height = 30;
-int x = height / 2, y = width / 2, FruitX = rand() + 2 % height-2, FruitY = rand() + 2 % width-2, score = 0, level = 55, last_score;
+int x = height / 2, y = width / 2, FruitX = rand() % height, FruitY = rand() % width, score = 0, level = 55, last_score;
 int tailX[100], tailY[100], nTail;
 enum nDirection { STOP = 0, LEFT, RIGHT, UP, DOWN };
 nDirection dir;
@@ -53,7 +53,7 @@ int main() {
 
 //начальная установка
 void Setup() {
-	x = height / 2, y = width / 2, FruitX = rand() % height-1, FruitY = rand() % width-1, score = 0;
+	x = height / 2, y = width / 2, FruitX = rand() % height - 1, FruitY = rand() % width - 1, score = 0;
 	First_start = false;
 	Start = false;
 	GameOver = false;
@@ -168,7 +168,7 @@ void Logic() {
 	if (x == FruitX && y == FruitY) {
 		score++;
 		nTail++;
-		FruitX = rand() + 2  % height-2, FruitY = rand() + 2 % width-2;
+		FruitX =rand() % height, FruitY =rand() % width;
 	}
 }
 
@@ -224,11 +224,11 @@ void Main_Menu() {
 	hightscore.close();
 	if (!Language) {
 		cout << "Лучший счёт: " << hight_score << endl << endl;
-		cout << "Добро пожаловать в мою вторую тестовую игру Snake_game_v1.1.2\n___________________________________________________________\nУправление:\nДвижение: WASD\nВыход: X\n___________________________________________________________\nПожалуйста перед началом игры прочти предупреждение\nНачать 1\nПредупреждение 2\nНастройки 3\nО разработчике 4\nРусский/English 5"  << endl << "\n_____________________\nУдалить все игровые файлы 0" << endl << endl;
+		cout << "Добро пожаловать в мою вторую тестовую игру Snake_game_v1.1.2\n___________________________________________________________\nУправление:\nДвижение: WASD\nВыход: X\n___________________________________________________________\nПожалуйста перед началом игры прочти предупреждение\nНачать 1\nПредупреждение 2\nНастройки 3\nО разработчике 4\nРусский / English 5" << endl << "\n_____________________\nУдалить все игровые файлы 0" << endl << endl;
 	}
 	if (Language) {
 		cout << "High score: " << hight_score << endl << endl;
-		cout << "Welcome to my second test game Snake_game_v1.1.2\n_____________________________________________________________\nControls:\nMovement: WASD\nExit: X\n_____________________________________________________________\nPlease read the warning before starting the game\nStart 1\nWarning 2\nSettings 3\nAbout Developer 4\nРусский/English 5\n" << endl << "\n_____________________\nDelete all game files 0" << endl << endl;
+		cout << "Welcome to my second test game Snake_game_v1.1.2\n_____________________________________________________________\nControls:\nMovement: WASD\nExit: X\n_____________________________________________________________\nPlease read the warning before starting the game\nStart 1\nWarning 2\nSettings 3\nAbout Developer 4\nРусский / English 5\n" << endl << "\n_____________________\nDelete all game files 0" << endl << endl;
 	}
 	switch (_getch()) {
 	case '1':
