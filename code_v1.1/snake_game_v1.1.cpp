@@ -9,7 +9,7 @@ using namespace std;
 //основные игровые параметры
 bool GameOver, Start, Language = true, First_start = true, wall_killing = true;
 const int width = 40, height = 20, window_width = 60, window_height = 30;
-int x = height / 2, y = width / 2, FruitX = rand() % height, FruitY = rand() % width, score = 0, level = 55, last_score;
+int x = height / 2, y = width / 2, FruitX = rand() + 2 % height-2, FruitY = rand() + 2 % width-2, score = 0, level = 55, last_score;
 int tailX[100], tailY[100], nTail;
 enum nDirection { STOP = 0, LEFT, RIGHT, UP, DOWN };
 nDirection dir;
@@ -168,7 +168,7 @@ void Logic() {
 	if (x == FruitX && y == FruitY) {
 		score++;
 		nTail++;
-		FruitX = rand() % height-2, FruitY = rand() % width-2;
+		FruitX = rand() + 2  % height-2, FruitY = rand() + 2 % width-2;
 	}
 }
 
