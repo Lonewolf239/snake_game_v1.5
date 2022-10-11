@@ -3,13 +3,14 @@
 #include <fstream>
 #include <conio.h>
 #include <windows.h>
+#include <ctime>
 
 using namespace std;
 
 //основные игровые параметры
-bool GameOver, Start, Language = true, First_start = true, wall_killing = true;
-const int width = 40, height = 20, window_width = 60, window_height = 30;
-int x = height / 2, y = width / 2, FruitX = rand() % height, FruitY = rand() % width, score = 0, level = 55, last_score;
+bool GameOver, Start = false, Language = true, First_start = true, wall_killing = true;
+const int width = 40, height = 20;
+int x = height / 2, y = width / 2, FruitX = rand() % 19, FruitY = rand() % 39, score = 0, level = 55, last_score;
 int tailX[100], tailY[100], nTail;
 enum nDirection { STOP = 0, LEFT, RIGHT, UP, DOWN };
 nDirection dir;
@@ -26,16 +27,18 @@ void Level();
 void Developer();
 void language();
 void Delete();
+void soc_netw();
 
 //main
 int main() {
+	srand(time(NULL));
 	setlocale(LC_CTYPE, "rus");
 	system("cls");
 	if (First_start) {
-		cout << " SSSS   NN  NN   AAAA   KK  KK  EEEEE\nSS      NNN NN  AA  AA  KK EE   EE\n SSSS   NN NNN  AAAAAA  KKKK    EEEE\n    SS  NN  NN  AA  AA  KK KK   EE\n SSSS   NN  NN  AA  AA  KK  KK  EEEEE\n\n GGGG    AAAA   MM   MM EEEEE\nGG      AA  AA  MMM MMM EE\nGG GGG  AAAAAA  MM M MM EEEE\nGG  GG  AA  AA  MM   MM EE\n GGGG   AA  AA  MM   MM EEEEE\n\n   11        11\n 1111      1111\n   11        11\n   11        11\n   11  **    11" << endl << endl;
+		cout << " SSSS   NN  NN   AAAA   KK  KK  EEEEE\nSS      NNN NN  AA  AA  KK EE   EE\n SSSS   NN NNN  AAAAAA  KKKK    EEEE\n    SS  NN  NN  AA  AA  KK KK   EE\n SSSS   NN  NN  AA  AA  KK  KK  EEEEE\n\n GGGG    AAAA   MM   MM EEEEE\nGG      AA  AA  MMM MMM EE\nGG GGG  AAAAAA  MM M MM EEEE\nGG  GG  AA  AA  MM   MM EE\n GGGG   AA  AA  MM   MM EEEEE\n\n  11       2222\n1111      22  22\n  11         22 \n  11       22   \n  11  **  222222" << endl << endl;
 		system("pause");
 	}
-	fstream hightscore("C:/Windows/Temp/Hight_Score.txt");
+	ifstream hightscore("C:/Windows/Temp/Hight_Score.txt");
 	if (hightscore.is_open())
 		hightscore >> last_score;
 	hightscore.close();
@@ -50,17 +53,15 @@ int main() {
 		Game_Over();
 	return 0;
 }
-
 //начальная установка
 void Setup() {
-	x = height / 2, y = width / 2, FruitX = rand() % height - 1, FruitY = rand() % width - 1, score = 0;
+	x = height / 2, y = width / 2, FruitX = rand() % 19, FruitY = rand() % 39, score = 0;
 	First_start = false;
 	Start = false;
 	GameOver = false;
 	nTail = 0;
 	dir = STOP;
 }
-
 //рисовалка
 void Draw() {
 	system("cls");
@@ -121,7 +122,6 @@ void Draw() {
 	cout << endl << endl;
 	Sleep(level);
 }
-
 //логика игры
 void Logic() {
 	int prevX = tailX[0], prevY = tailY[0], prev2X, prev2Y;
@@ -168,10 +168,9 @@ void Logic() {
 	if (x == FruitX && y == FruitY) {
 		score++;
 		nTail++;
-		FruitX =rand() % height, FruitY =rand() % width;
+		FruitX =rand() % 19, FruitY =rand() % 39;
 	}
 }
-
 //управление
 void Input() {
 	if (_kbhit()) {
@@ -194,7 +193,6 @@ void Input() {
 		}
 	}
 }
-
 //конец игры
 void Game_Over() {
 	system("cls");
@@ -213,7 +211,6 @@ void Game_Over() {
 	Start = false;
 	main();
 }
-
 //главное меню
 void Main_Menu() {
 	system("cls");
@@ -222,14 +219,14 @@ void Main_Menu() {
 	if (hightscore.is_open())
 		hightscore >> hight_score;
 	hightscore.close();
-	if (!Language) {
-		cout << "Лучший счёт: " << hight_score << endl << endl;
-		cout << "Добро пожаловать в мою вторую тестовую игру Snake_game_v1.1.2\n___________________________________________________________\nУправление:\nДвижение: WASD\nВыход: X\n___________________________________________________________\nПожалуйста перед началом игры прочти предупреждение\nНачать 1\nПредупреждение 2\nНастройки 3\nО разработчике 4\nРусский / English 5" << endl << "\n_____________________\nУдалить все игровые файлы 0" << endl << endl;
-	}
-	if (Language) {
-		cout << "High score: " << hight_score << endl << endl;
-		cout << "Welcome to my second test game Snake_game_v1.1.2\n_____________________________________________________________\nControls:\nMovement: WASD\nExit: X\n_____________________________________________________________\nPlease read the warning before starting the game\nStart 1\nWarning 2\nSettings 3\nAbout Developer 4\nРусский / English 5\n" << endl << "\n_____________________\nDelete all game files 0" << endl << endl;
-	}
+		if (!Language) {
+			cout << "Лучший счёт: " << hight_score << endl << endl;
+			cout << "Добро пожаловать в мою вторую тестовую игру Snake_game_v1.2\n___________________________________________________________\nУправление:\nДвижение: WASD\nВыход: X\n___________________________________________________________\nПожалуйста перед началом игры прочти предупреждение\nНачать 1\nПредупреждение 2\nНастройки 3\nО разработчиках 4\nРусский/English 5" << endl << "\n_____________________\nУдалить все игровые файлы 6\nВыйти 0" << endl << endl;
+		}
+		if (Language) {
+			cout << "High score: " << hight_score << endl << endl;
+			cout << "Welcome to my second test game Snake_game_v1.2\n_____________________________________________________________\nControls:\nMovement: WASD\nExit: X\n_____________________________________________________________\nPlease read the warning before starting the game\nStart 1\nWarning 2\nSettings 3\nAbout Developers 4\nРусский/English 5" << endl << "\n_____________________\nDelete all game files 6\nExit 0" << endl << endl;
+		}
 	switch (_getch()) {
 	case '1':
 		Start = true;
@@ -246,26 +243,27 @@ void Main_Menu() {
 	case '5':
 		language();
 		break;
-	case '0':
+	case '6':
 		Delete();
+		break;
+	case '0':
+		exit(0);
 		break;
 	default:
 		Main_Menu();
 	}
 }
-
 //предупреждение
 void Warning() {
 	system("cls");
 	cout << "          WW   WW   AAAA   RRRRR   NN  NN  IIIIII  NN  NN   GGGG\n          WW   WW  AA  AA  RR  RR  NNN NN    II    NNN NN  GG\n          WW W WW  AAAAAA  RRRRR   NN NNN    II    NN NNN  GG GGG\n          WWWWWWW  AA  AA  RR  RR  NN  NN    II    NN  NN  GG  GG\n           WW WW   AA  AA  RR  RR  NN  NN  IIIIII  NN  NN   GGGG" << endl << endl;
 	if (!Language)
-		cout << "В данной игре графика выполнена в виде символов и постоянно мерцает, в следствие чего может быть опасна для людей с эпилепсией.\nЕсли вы больны эпилепсией, я попрошу вас закрыть это приложение в целях вашей же безопастности. Спасибо" << endl;
+		cout << "В данной игре графика выполнена в виде символов и постоянно мерцает\nВ следствие чего может быть опасна для людей с эпилепсией.\nЕсли вы больны эпилепсией, я попрошу вас закрыть это приложение в целях вашей же безопастности. Спасибо" << endl;
 	if (Language)
-		cout << "In this game, the graphics are in the form of symbols and flicker constantly, as a result of which it can be dangerous for people with epilepsy.\nIf you have epilepsy, I ask you to close this application for your own safety. Thanks" << endl;
+		cout << "In this game, the graphics are in the form of symbols and flicker constantly\nAs a result of which it can be dangerous for people with epilepsy.\nIf you have epilepsy, I ask you to close this application for your own safety. Thanks" << endl;
 	system("pause");
 	Main_Menu();
 }
-
 //настройки
 void Level() {
 	system("cls");
@@ -322,25 +320,42 @@ void Level() {
 		Level();
 	}
 }
-
 //о разработчике
 void Developer() {
 	system("cls");
 	if (!Language)
-		cout << "Мои соц. сети:\n___________________________\nDiscord: Bubba#4211\nVK: @1blitz01\nTelegram: @an1onimes\n___________________________" << endl << endl;
+		cout << "===================\n   Разработчики:\n===================\n Програмированние:\n    Lonewolf239\n===================\n Создание иконки:\n      qscvhu\n===================\n     Перевод:\n Google Translate\n===================\n    Соц.сети 1\n      Выйти 2\n===================\n\n\n\n\n\n\n\n\n" << endl << endl;
 	if (Language)
-		cout << "My social networks:\n___________________________\nDiscord: Bubba#4211\nVK: @1blitz01\nTelegram: @an1onimes\n___________________________" << endl << endl;
+		cout << "===================\n    Developers:\n===================\n   Programming:\n    Lonewolf239\n===================\n Creating an icon:\n      qscvhu\n===================\n   Translation:\n Google Translate\n===================\n Social networks 1\n      Exit 2\n===================\n\n\n\n\n\n\n\n\n" << endl << endl;
+	switch (_getch()) {
+	case '1':
+		soc_netw();
+		break;
+	case '2':
+		Main_Menu();
+		break;
+	default:
+		Developer();
+		break;
+	}
+}
+//соц.сети
+void soc_netw() {
+	system("cls");
+	if (Language)
+		cout << "    Social network:\n";
+	if (!Language)
+		cout << "      Соц. сети:\n";
+	cout << "======================\n     Lonewolf239:\n Discord: Bubba#4211\n    VK: @1blitz01\n Telegram: @an1onime\n======================\n       qscvhu:\n  VK: @mark_kabolov\n  Telegram: @Apsyuch\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n" << endl << endl << endl << endl << endl;
 	system("pause");
 	Main_Menu();
 }
-
 //выбор языка
 void language() {
 	system("cls");
 	Language = !Language;
 	Main_Menu();
 }
-
 //удаление рекорда
 void Delete() {
 	char ye[5];
@@ -351,8 +366,10 @@ void Delete() {
 		if (ye[0] == 'Y' || ye[0] == 'y') {
 			if (remove("C:/Windows/Temp/Hight_Score.txt") != 0)
 				cout << endl << endl << endl << ":3" << endl << endl << endl << endl;
-			else
+			else {
+				last_score = 0;
 				cout << endl << endl << endl << ";-;" << endl << endl << endl << endl;
+			}
 			Main_Menu();
 		}
 		else
@@ -364,8 +381,10 @@ void Delete() {
 		if (ye[0] == 'Y' || ye[0] == 'y') {
 			if (remove("C:/Windows/Temp/Hight_Score.txt") != 0)
 				cout << endl << endl << endl << "hfc" << endl << endl << endl << endl;
-			else
+			else {
+				last_score = 0;
 				cout << endl << endl << endl << "cool dude" << endl << endl << endl << endl;
+			}
 			Main_Menu();
 		}
 		else
