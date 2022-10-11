@@ -1,2 +1,2 @@
-# My second test game snake_game_v1.1
+# My second test game snake_game_v1.2
 # for Win64 and Win32
