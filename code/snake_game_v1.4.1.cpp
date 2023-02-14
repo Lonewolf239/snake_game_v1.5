@@ -8,9 +8,9 @@
 using namespace std;
 
 //основные игровые параметры
-bool GameOver, Start = false, Language = true, First_start = true, wall_killing = true, dangerous = true, tmer = false, de1eting_file = false;
+bool GameOver, Start = false, Language = true, First_start = true, wall_killing = true, dangerous = true, tmer = false, de1eting_file = false, help = true;
 const int width = 40, height = 20;
-int x = height / 2, y = width / 2, FruitX = rand() % 19, FruitY = rand() % 39, score = 0, level = 55, last_score_easily, last_score_medium, last_score_hard, seconds = 5, dificult = 0;
+int x = height / 2, y = width / 2, Super_Fruit_Spawn = rand() % 20, FruitX = rand() % 19, FruitY = rand() % 39, Super_FruitX = rand() % 19, Super_FruitY = rand() % 39, score = 0, level = 55, last_score_easily, last_score_medium, last_score_hard, seconds = 5, dificult = 1;
 int tailX[100], tailY[100], nTail;
 enum nDirection { STOP = 0, LEFT, RIGHT, UP, DOWN };
 nDirection dir;
@@ -25,7 +25,6 @@ void Main_Menu();
 void Warning();
 void Level();
 void Developer();
-void language();
 void Delete();
 void soc_netw();
 
@@ -124,7 +123,7 @@ int main() {
 }
 //начальная установка
 void Setup() {
-	x = height / 2, y = width / 2, FruitX = rand() % 19, FruitY = rand() % 39, score = 0;
+	x = height / 2, y = width / 2, Super_Fruit_Spawn = rand() % 20, FruitX = rand() % 19, FruitY = rand() % 39, Super_FruitX = rand() % 19, Super_FruitY = rand() % 39, score = 0;
 	First_start = false;
 	Start = false;
 	GameOver = false;
@@ -143,6 +142,8 @@ void Draw() {
 			if (i == x && j == y)
 				cout << "S";
 			else if (i == FruitX && j == FruitY)
+				cout << "f";
+			else if (i == Super_FruitX && j == Super_FruitY && Super_Fruit_Spawn >= 10 && Super_Fruit_Spawn <= 12)
 				cout << "F";
 			else {
 				bool print = false;
@@ -173,6 +174,12 @@ void Draw() {
 			cout << "Difficulty: Normal";
 		if (level == 25)
 			cout << "Difficulty: Hard";
+		if (help) {
+			cout << "\n============================\nf - Fruit (+1 pt)\nF - Super Fruit (+5 pt)\n";
+			cout << "Movement: WASD\nExit: X";
+		}
+		else
+			cout << endl << endl;
 	}
 	if (!Language) {
 		cout << "Счёт: " << score << endl;
@@ -187,8 +194,13 @@ void Draw() {
 			cout << "Сложность: Нормально";
 		if (level == 25)
 			cout << "Сложность: Сложно";
+		if (help) {
+			cout << "\n============================\nf - Фрукт (+1 pt)\nF - Супер Фрукт (+5 pt)\n";
+			cout << "Движение: WASD\nВыйти: X";
+		}
+		else
+			cout << endl << endl;
 	}
-	cout << endl << endl;
 	Sleep(level);
 }
 //логика игры
@@ -237,8 +249,18 @@ void Logic() {
 	if (x == FruitX && y == FruitY) {
 		score++;
 		nTail++;
-		FruitX =rand() % 19, FruitY =rand() % 39;
+		FruitX = rand() % 19, FruitY = rand() % 39;
+		Super_Fruit_Spawn = rand() % 20;
 	}
+	if (x == Super_FruitX && y == Super_FruitY && Super_Fruit_Spawn >= 10 && Super_Fruit_Spawn <= 12) {
+		score += 5;
+		nTail++;
+		FruitX = rand() % 19, FruitY = rand() % 39;
+		Super_FruitX = rand() % 19, Super_FruitY = rand() % 39;
+		Super_Fruit_Spawn = rand() % 20;
+	}
+	if (FruitX == Super_FruitX && FruitY == Super_FruitY && Super_Fruit_Spawn >= 10 && Super_Fruit_Spawn <= 12)
+		FruitX = rand() % 19, FruitY = rand() % 39;
 }
 //управление
 void Input() {
@@ -323,12 +345,12 @@ void Main_Menu() {
 		hightscoreH >> hight_score_hard;
 	hightscoreH.close();
 		if (Language) {
-			cout << "                   Snake_Game_v1.4" << endl;
-			cout << "====================================================\n                      Main menu\n====================================================\n                     High score:\n                       Easy: " << hight_score_easily << "\n                      Medium: " << hight_score_medium << "\n                       Hard: " << hight_score_hard << "\n====================================================\n                    Movement: WASD\n                       Exit: X\n====================================================\n                       Start 1\n                      Settings 2\n                About the developers 3\n                  Русский/English 4\n              =========================\n                  Delete game data 7\n                       Exit 0\n\n\n\n\n\n\n\n\n\n" << endl;
+			cout << "                  Snake_Game_v1.4.1" << endl;
+			cout << "====================================================\n                      Main menu\n====================================================\n                     High score:\n                       Easy: " << hight_score_easily << "\n                      Medium: " << hight_score_medium << "\n                       Hard: " << hight_score_hard << "\n====================================================\n                       Start 1\n                      Settings 2\n                About the developers 3\n                  Русский/English 4\n              =========================\n                  Delete game data 7\n                       Exit 0\n\n\n\n\n\n\n\n\n\n" << endl;
 		}
 		if (!Language) {
-			cout << "                      Snake_Game_v1.4" << endl;
-			cout << "==============================================================\n                        Главное меню\n==============================================================\n                        Лучший счёт:\n                          Легко: " << hight_score_easily << "\n                        Нормально: " << hight_score_medium << "\n                         Сложно: " << hight_score_hard << "\n==============================================================\n                       Движение: WASD\n                           Выйти: X\n==============================================================\n                           Старт 1\n                         Настройки 2\n                      О Разработчиках 3\n                      Русский/English 4\n              ==================================\n                   Удалить игровые данные 7\n                           Выйти 0\n\n\n\n\n\n\n\n\n\n" << endl;
+			cout << "                     Snake_Game_v1.4.1" << endl;
+			cout << "==============================================================\n                        Главное меню\n==============================================================\n                        Лучший счёт:\n                          Легко: " << hight_score_easily << "\n                        Нормально: " << hight_score_medium << "\n                         Сложно: " << hight_score_hard << "\n==============================================================\n                           Старт 1\n                         Настройки 2\n                      О Разработчиках 3\n                      Русский/English 4\n              ==================================\n                   Удалить игровые данные 7\n                           Выйти 0\n\n\n\n\n\n\n\n\n\n" << endl;
 		}
 	switch (_getch()) {
 	case '1':
@@ -344,7 +366,9 @@ void Main_Menu() {
 		Developer();
 		break;
 	case '4':
-		language();
+		system("cls");
+		Language = !Language;
+		Main_Menu();
 		break;
 	case '7':
 		Delete();
@@ -413,7 +437,12 @@ void Level() {
 			cout << "     Walls kill: YES 4";
 		if (!wall_killing)
 			cout << "     Walls kill: NO 4";
-		cout << "\n========================\n         Exit 5" << endl << endl << endl << endl;
+		cout << endl;
+		if (help)
+			cout << "     Show hints: YES 5";
+		if (!help)
+			cout << "     Show hints: NO 5";
+		cout << "\n========================\n         Exit 6" << endl << endl << endl << endl;
 	}
 	if (!Language) {
 		cout << "========================\n	Настройки\n========================\n";
@@ -429,7 +458,12 @@ void Level() {
 			cout << "    Стены убивают: ДА 4";
 		if (!wall_killing)
 			cout << "    Стены убивают: НЕТ 4";
-		cout << "\n========================\n         Выход 5" << endl << endl << endl << endl;
+		cout << endl;
+		if (help)
+			cout << "      Подсказки: ДА 5";
+		if (!help)
+			cout << "      Подсказки: НЕТ 5";
+		cout << "\n========================\n         Выход 6" << endl << endl << endl << endl;
 	}
 	cout << endl << endl;
 	switch (_getch()) {
@@ -448,12 +482,16 @@ void Level() {
 		level = 25;
 		Level();
 		break;
-	case '5':
-		Main_Menu();
-		break;
 	case '4':
 		wall_killing = !wall_killing;
 		Level();
+		break;
+	case '5':
+		help = !help;
+		Level();
+		break;
+	case '6':
+		Main_Menu();
 		break;
 	default:
 		Level();
@@ -502,12 +540,6 @@ void soc_netw() {
 		soc_netw();
 		break;
 	}
-}
-//выбор языка
-void language() {
-	system("cls");
-	Language = !Language;
-	Main_Menu();
 }
 //удаление рекорда
 void Delete() {
