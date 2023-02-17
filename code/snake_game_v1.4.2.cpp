@@ -11,6 +11,7 @@ using namespace std;
 bool GameOver, Start = false, Language = true, First_start = true, wall_killing = true, dangerous = true, tmer = false, de1eting_file = false, help = true;
 const int width = 40, height = 20;
 int x = height / 2, y = width / 2, Super_Fruit_Spawn = rand() % 20, FruitX = rand() % 19, FruitY = rand() % 39, Super_FruitX = rand() % 19, Super_FruitY = rand() % 39, score = 0, level = 55, last_score_easily, last_score_medium, last_score_hard, seconds = 5, dificult = 1;
+float  factor = 1.5;
 int tailX[100], tailY[100], nTail;
 enum nDirection { STOP = 0, LEFT, RIGHT, UP, DOWN };
 nDirection dir;
@@ -296,6 +297,15 @@ void Input() {
 void Game_Over() {
 	system("cls");
 	cout << endl << " GGGG    AAAA   MM   MM  EEEEE    OOOO   VV  VV  EEEEE  RRRRR\nGG      AA  AA  MMM MMM  EE      OO  OO  VV  VV  EE     RR  RR\nGG GGG  AAAAAA  MM M MM  EEEE    OO  OO  VV  VV  EEEE   RRRRR\nGG  GG  AA  AA  MM   MM  EE      OO  OO   VVVV   EE     RR  RR\n GGGG   AA  AA  MM   MM  EEEEE    OOOO     VV    EEEEE  RR  RR" << endl << endl;
+	if (!Language) {
+		cout << "Изначальный счёт: " << score << endl;
+		cout << "Коэффициент сложности: x" << factor << endl;
+	}
+	if (Language) {
+		cout << "Initial score: " << score << endl;
+		cout << "Difficulty factor: x" << factor << endl;
+	}
+	score *= factor;
 	if (!Language)
 		cout << "Твой счёт: " << score << endl;
 	if (Language)
@@ -344,16 +354,34 @@ void Main_Menu() {
 	if (hightscoreH.is_open())
 		hightscoreH >> hight_score_hard;
 	hightscoreH.close();
-		if (Language) {
-			cout << "                  Snake_Game_v1.4.1" << endl;
-			cout << "====================================================\n                      Main menu\n====================================================\n                     High score:\n                       Easy: " << hight_score_easily << "\n                      Medium: " << hight_score_medium << "\n                       Hard: " << hight_score_hard << "\n====================================================\n                       Start 1\n                      Settings 2\n                About the developers 3\n                  Русский/English 4\n              =========================\n                  Delete game data 7\n                       Exit 0\n\n\n\n\n\n\n\n\n\n" << endl;
-		}
-		if (!Language) {
-			cout << "                     Snake_Game_v1.4.1" << endl;
-			cout << "==============================================================\n                        Главное меню\n==============================================================\n                        Лучший счёт:\n                          Легко: " << hight_score_easily << "\n                        Нормально: " << hight_score_medium << "\n                         Сложно: " << hight_score_hard << "\n==============================================================\n                           Старт 1\n                         Настройки 2\n                      О Разработчиках 3\n                      Русский/English 4\n              ==================================\n                   Удалить игровые данные 7\n                           Выйти 0\n\n\n\n\n\n\n\n\n\n" << endl;
-		}
+	if (Language) {
+		cout << "                  Snake_Game_v1.4.2" << endl;
+		cout << "====================================================\n                      Main menu\n====================================================\n                     High score:\n                       Easy: " << hight_score_easily << "\n                      Medium: " << hight_score_medium << "\n                       Hard: " << hight_score_hard << "\n====================================================\n                       Start 1\n                      Settings 2\n                About the developers 3\n                  Русский/English 4\n              =========================\n                  Delete game data 7\n                       Exit 0\n\n\n\n\n\n\n\n\n\n" << endl;
+	}
+	if (!Language) {
+		cout << "                     Snake_Game_v1.4.2" << endl;
+		cout << "==============================================================\n                        Главное меню\n==============================================================\n                        Лучший счёт:\n                          Легко: " << hight_score_easily << "\n                        Нормально: " << hight_score_medium << "\n                         Сложно: " << hight_score_hard << "\n==============================================================\n                           Старт 1\n                         Настройки 2\n                      О Разработчиках 3\n                      Русский/English 4\n              ==================================\n                   Удалить игровые данные 7\n                           Выйти 0\n\n\n\n\n\n\n\n\n\n" << endl;
+	}
 	switch (_getch()) {
 	case '1':
+		if (level == 100) {
+			if (wall_killing)
+				factor = 1;
+			else
+				factor = 0.5;
+		}
+		if (level == 55) {
+			if (wall_killing)
+				factor = 1.5;
+			else
+				factor = 1;
+		}
+		if (level == 25) {
+			if (wall_killing)
+				factor = 2;
+			else
+				factor = 1.5;
+		}
 		if (dangerous)
 			Warning();
 		else
@@ -375,6 +403,23 @@ void Main_Menu() {
 		break;
 	case '0':
 		exit(0);
+		break;
+	case '|':
+		system("cls");
+		if (!Language)
+			cout << "Как ты это нашёл? Методом тыка? А может глянул в коде...\nВведите коэффициент (max 5): ";
+		if (Language)
+			cout << "How did you find it? Poke method? Or maybe you looked in the code...\nEnter the coefficient (max 5): ";
+		cin >> factor;
+		if (factor == 666) {
+			Start = true;
+			break;
+		}
+		if (factor < 0)
+			factor = 0;
+		if (factor > 5)
+			factor = 5;
+		Start = true;
 		break;
 	default:
 		Main_Menu();
@@ -424,7 +469,7 @@ void Warning() {
 void Level() {
 	system("cls");
 	if (Language) {
-		cout << "========================\n	Settings\n========================\n";
+		cout << "========================\n	Settings\n Difficulty factor: x" << factor << "\n========================\n";
 		cout << "       Difficulty:\n         Easy 1\n        Normal 2\n         Hard 3" << endl;
 		if (level == 100)
 			cout << "    Difficulty: Easy";
@@ -445,7 +490,7 @@ void Level() {
 		cout << "\n========================\n         Exit 6" << endl << endl << endl << endl;
 	}
 	if (!Language) {
-		cout << "========================\n	Настройки\n========================\n";
+		cout << "========================\n	Настройки\nКоэф-ент сложности: x" << factor << "\n========================\n";
 		cout << "        Сложность:\n         Легко 1\n        Нормально 2\n         Сложно 3" << endl;
 		if (level == 100)
 			cout << "    Сложность: Легко";
@@ -468,21 +513,51 @@ void Level() {
 	cout << endl << endl;
 	switch (_getch()) {
 	case '1':
+		if (wall_killing)
+			factor = 1;
+		else
+			factor = 0.5;
 		dificult = 0;
 		level = 100;
 		Level();
 		break;
 	case '2':
+		if (wall_killing)
+			factor = 1.5;
+		else
+			factor = 1;
 		dificult = 1;
 		level = 55;
 		Level();
 		break;
 	case '3':
+		if (wall_killing)
+			factor = 2;
+		else
+			factor = 1.5;
 		dificult = 2;
 		level = 25;
 		Level();
 		break;
 	case '4':
+		if (level == 100) {
+			if (!wall_killing)
+				factor = 1;
+			else
+				factor = 0.5;
+		}
+		if (level == 55) {
+			if (!wall_killing)
+				factor = 1.5;
+			else
+				factor = 1;
+		}
+		if (level == 25) {
+			if (!wall_killing)
+				factor = 2;
+			else
+				factor = 1.5;
+		}
 		wall_killing = !wall_killing;
 		Level();
 		break;

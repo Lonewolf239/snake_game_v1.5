@@ -51,8 +51,8 @@ END
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 1,4,1,0
- PRODUCTVERSION 1,4,1,0
+ FILEVERSION 1,4,2,0
+ PRODUCTVERSION 1,4,2,0
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -69,12 +69,12 @@ BEGIN
         BEGIN
             VALUE "CompanyName", "Lonewolf239"
             VALUE "FileDescription", "Snake_Game by. Lonewolf239"
-            VALUE "FileVersion", "1.4.1"
-            VALUE "InternalName", "snake_game_v1.4.1"
+            VALUE "FileVersion", "1.4.2"
+            VALUE "InternalName", "snake_game_v1.4.2"
             VALUE "LegalCopyright", "Copyright (C) 2022"
-            VALUE "OriginalFilename", "snake_game_v1.4.1"
+            VALUE "OriginalFilename", "snake_game_v1.4.2"
             VALUE "ProductName", "Snake_Game"
-            VALUE "ProductVersion", "1.4.1"
+            VALUE "ProductVersion", "1.4.2"
         END
     END
     BLOCK "VarFileInfo"
