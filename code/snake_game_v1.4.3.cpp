@@ -385,11 +385,11 @@ void Main_Menu() {
 	hightscoreH.close();
 	if (Language) {
 		cout << "                  Snake_Game_v1.4.3" << endl;
-		cout << "====================================================\n                      Main menu\n====================================================\n                     High score:\n                       Easy: " << hight_score_easily << "\n                      Medium: " << hight_score_medium << "\n                       Hard: " << hight_score_hard << "\n====================================================\n                       Start 1\n                      Settings 2\n                About the developers 3\n                  Русский/English 4\n              =========================\n                  Delete game data 7\n                       Exit 0\n\n\n\n\n\n\n\n\n\n" << endl;
+		cout << "====================================================\n                      Main menu\n====================================================\n                     High score:\n                       Easy: " << hight_score_easily << "\n                      Medium: " << hight_score_medium << "\n                       Hard: " << hight_score_hard << "\n====================================================\n                       Start 1\n                      Settings 2\n                About the developers 3\n                  Русский/English 4\n              =========================\n                      Telegram 6\n                  Delete game data 7\n                       Exit 0\n\n\n\n\n\n\n\n\n\n" << endl;
 	}
 	if (!Language) {
 		cout << "                     Snake_Game_v1.4.3" << endl;
-		cout << "==============================================================\n                        Главное меню\n==============================================================\n                        Лучший счёт:\n                          Легко: " << hight_score_easily << "\n                        Нормально: " << hight_score_medium << "\n                         Сложно: " << hight_score_hard << "\n==============================================================\n                           Старт 1\n                         Настройки 2\n                      О Разработчиках 3\n                      Русский/English 4\n              ==================================\n                   Удалить игровые данные 7\n                           Выйти 0\n\n\n\n\n\n\n\n\n\n" << endl;
+		cout << "==============================================================\n                        Главное меню\n==============================================================\n                        Лучший счёт:\n                          Легко: " << hight_score_easily << "\n                        Нормально: " << hight_score_medium << "\n                         Сложно: " << hight_score_hard << "\n==============================================================\n                           Старт 1\n                         Настройки 2\n                      О Разработчиках 3\n                      Русский/English 4\n              ==================================\n                          Telegram 6\n                   Удалить игровые данные 7\n                           Выйти 0\n\n\n\n\n\n\n\n\n\n" << endl;
 	}
 	switch (_getch()) {
 	case '1':
@@ -425,6 +425,10 @@ void Main_Menu() {
 	case '4':
 		system("cls");
 		Language = !Language;
+		Main_Menu();
+		break;
+	case '6':
+		system("explorer https://t.me/+VLJzjVRg8ElkZWYy");
 		Main_Menu();
 		break;
 	case '7':
