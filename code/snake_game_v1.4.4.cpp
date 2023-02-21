@@ -8,13 +8,14 @@
 using namespace std;
 
 //основные игровые параметры
-bool GameOver, Start = false, Language = true, First_start = true, wall_killing = true, dangerous = true, tmer = false, de1eting_file = false, help = true;
+bool GameOver, PlayerWin, Start = false, Language = true, First_start = true, wall_killing = true, dangerous = true, tmer = false, de1eting_file = false, help = true;
 const int width = 40, height = 20;
-int x = height / 2, y = width / 2, Super_Fruit_Spawn = rand() % 20, FruitX = rand() % 19, FruitY = rand() % 39, Super_FruitX = rand() % 19, Super_FruitY = rand() % 39, score = 0, level = 55, last_score_easily, last_score_medium, last_score_hard, seconds = 5, dificult = 1;
+int x = height / 2, y = width / 2, Super_Fruit_Spawn = rand() % 20, FruitX = rand() % 19, FruitY = rand() % 39, Super_FruitX = rand() % 19, Super_FruitY = rand() % 39, score = 0, level = 55, last_score_easily, last_score_medium, last_score_hard, seconds = 5, dificult = 1, win;
 float  factor = 1.5;
-int tailX[100], tailY[100], nTail;
+int tailX[350], tailY[350], nTail;
 enum nDirection { STOP = 0, LEFT, RIGHT, UP, DOWN };
 nDirection dir;
+string warning_key;
 
 //костыли
 void Setup();
@@ -34,6 +35,14 @@ int main() {
 	srand(time(NULL));
 	setlocale(LC_CTYPE, "rus");
 	system("cls");
+	if (First_start) {
+		ifstream key("C:/Windows/Temp/Warning_Disabling.txt");
+		if (key.is_open())
+			key >> warning_key;
+		key.close();
+		if(warning_key == "fCFjW0n|ZbuuGrkWCJl?gFShQW6?Hu2xiG?g")
+			dangerous = false;
+	}
 	ifstream hightscoreE("C:/Windows/Temp/Hight_EScore.txt");
 	if (hightscoreE.is_open())
 		hightscoreE >> last_score_easily;
@@ -89,7 +98,7 @@ int main() {
 				cout << "]";
 				Sleep(rand() % 300);
 				loading += rand_loading;
-				rand_loading = 1 + rand() % 15;
+				rand_loading = 1 + rand() % 20;
 				if (loading > 100) {
 					loading = 100;
 					system("cls");
@@ -126,6 +135,7 @@ int main() {
 void Setup() {
 	x = height / 2, y = width / 2, Super_Fruit_Spawn = rand() % 20, FruitX = rand() % 19, FruitY = rand() % 39, Super_FruitX = rand() % 19, Super_FruitY = rand() % 39, score = 0;
 	First_start = false;
+	PlayerWin = false;
 	Start = false;
 	GameOver = false;
 	nTail = 0;
@@ -182,7 +192,7 @@ void Draw() {
 		if (level == 25)
 			cout << "Difficulty: Hard";
 		if (help) {
-			cout << "\n============================\nf - Fruit (+1 pt)\nF - Super Fruit (+5 pt)\n";
+			cout << "\n============================\nf - Fruit (+1 pt)\nF - Super Fruit (+10 pt)\n";
 			cout << "Movement: WASD\nExit: X";
 		}
 		else
@@ -202,7 +212,7 @@ void Draw() {
 		if (level == 25)
 			cout << "Сложность: Сложно";
 		if (help) {
-			cout << "\n============================\nf - Фрукт (+1 pt)\nF - Супер Фрукт (+5 pt)\n";
+			cout << "\n============================\nf - Фрукт (+1 pt)\nF - Супер Фрукт (+10 pt)\n";
 			cout << "Движение: WASD\nВыйти: X";
 		}
 		else
@@ -220,8 +230,7 @@ void Logic() {
 		tailX[i] = prevX, tailY[i] = prevY;
 		prevX = prev2X, prevY = prev2Y;
 	}
-	switch (dir)
-	{
+	switch (dir) {
 	case LEFT:
 		y--;
 		break;
@@ -255,12 +264,22 @@ void Logic() {
 	}
 	if (x == FruitX && y == FruitY) {
 		score++;
+		if (score >= 300) {
+			win = 2 + rand() % 3;
+			GameOver = true;
+			PlayerWin = true;
+		}
 		nTail++;
 		FruitX = rand() % 19, FruitY = rand() % 39;
 		Super_Fruit_Spawn = rand() % 20;
 	}
 	if (x == Super_FruitX && y == Super_FruitY && Super_Fruit_Spawn >= 10 && Super_Fruit_Spawn <= 12) {
-		score += 5;
+		score += 10;
+		if (score >= 300) {
+			win = 2 + rand() % 3;
+			GameOver = true;
+			PlayerWin = true;
+		}
 		nTail++;
 		FruitX = rand() % 19, FruitY = rand() % 39;
 		Super_FruitX = rand() % 19, Super_FruitY = rand() % 39;
@@ -325,20 +344,40 @@ void Input() {
 //конец игры
 void Game_Over() {
 	system("cls");
-	cout << endl << " GGGG    AAAA   MM   MM  EEEEE    OOOO   VV  VV  EEEEE  RRRRR\nGG      AA  AA  MMM MMM  EE      OO  OO  VV  VV  EE     RR  RR\nGG GGG  AAAAAA  MM M MM  EEEE    OO  OO  VV  VV  EEEE   RRRRR\nGG  GG  AA  AA  MM   MM  EE      OO  OO   VVVV   EE     RR  RR\n GGGG   AA  AA  MM   MM  EEEEE    OOOO     VV    EEEEE  RR  RR" << endl << endl;
-	if (!Language) {
-		cout << "Изначальный счёт: " << score << endl;
-		cout << "Коэффициент сложности: x" << factor << endl;
+	if (!PlayerWin) {
+		cout << endl << " GGGG    AAAA   MM   MM  EEEEE    OOOO   VV  VV  EEEEE  RRRRR\nGG      AA  AA  MMM MMM  EE      OO  OO  VV  VV  EE     RR  RR\nGG GGG  AAAAAA  MM M MM  EEEE    OO  OO  VV  VV  EEEE   RRRRR\nGG  GG  AA  AA  MM   MM  EE      OO  OO   VVVV   EE     RR  RR\n GGGG   AA  AA  MM   MM  EEEEE    OOOO     VV    EEEEE  RR  RR" << endl << endl;
+		if (!Language) {
+			cout << "Изначальный счёт: " << score << endl;
+			cout << "Коэффициент сложности: x" << factor << endl;
+		}
+		if (Language) {
+			cout << "Initial score: " << score << endl;
+			cout << "Difficulty factor: x" << factor << endl;
+		}
+		score *= factor;
+		if (!Language)
+			cout << "Твой счёт: " << score << endl;
+		if (Language)
+			cout << "Your score: " << score << endl;
 	}
-	if (Language) {
-		cout << "Initial score: " << score << endl;
-		cout << "Difficulty factor: x" << factor << endl;
+	else {
+		cout << endl << "             WW   WW   OOOO   WW   WW   !!!\n             WW   WW  OO  OO  WW   WW   !!!\n             WW W WW  OO  OO  WW W WW   !!!\n             WWWWWWW  OO  OO  WWWWWWW\n              WW WW    OOOO    WW WW    !!!\n\nYY  YY   OOOO   UU  UU     WW   WW  IIIIII  NN  NN   !!!\n YYYY   OO  OO  UU  UU     WW   WW    II    NNN NN   !!!\n  YY    OO  OO  UU  UU     WW W WW    II    NN NNN   !!!\n  YY    OO  OO  UU  UU     WWWWWWW    II    NN  NN\n  YY     OOOO    UUUU       WW WW   IIIIII  NN  NN   !!!		" << endl << endl;
+		if (!Language) {
+			cout << "Изначальный счёт: " << score << endl;
+			cout << "Коэффициент сложности: x" << factor << "*" << win << endl;
+		}
+		if (Language) {
+			cout << "Initial score: " << score << endl;
+			cout << "Difficulty factor: x" << factor << "*" << win << endl;
+		}
+		factor *= win;
+		score *= factor;
+		if (!Language)
+			cout << "Твой счёт: " << score << endl;
+		if (Language)
+			cout << "Your score: " << score << endl;
 	}
-	score *= factor;
-	if (!Language)
-		cout << "Твой счёт: " << score << endl;
-	if (Language)
-		cout << "Your score: " << score << endl;
+
 	if (dificult == 0) {
 		if (score > last_score_easily) {
 			ofstream hightscore("C:/Windows/Temp/Hight_EScore.txt");
@@ -384,11 +423,11 @@ void Main_Menu() {
 		hightscoreH >> hight_score_hard;
 	hightscoreH.close();
 	if (Language) {
-		cout << "                  Snake_Game_v1.4.3" << endl;
+		cout << "                  Snake_Game_v1.4.4" << endl;
 		cout << "====================================================\n                      Main menu\n====================================================\n                     High score:\n                       Easy: " << hight_score_easily << "\n                      Medium: " << hight_score_medium << "\n                       Hard: " << hight_score_hard << "\n====================================================\n                       Start 1\n                      Settings 2\n                About the developers 3\n                  Русский/English 4\n              =========================\n                      Telegram 6\n                  Delete game data 7\n                       Exit 0\n\n\n\n\n\n\n\n\n\n" << endl;
 	}
 	if (!Language) {
-		cout << "                     Snake_Game_v1.4.3" << endl;
+		cout << "                     Snake_Game_v1.4.4" << endl;
 		cout << "==============================================================\n                        Главное меню\n==============================================================\n                        Лучший счёт:\n                          Легко: " << hight_score_easily << "\n                        Нормально: " << hight_score_medium << "\n                         Сложно: " << hight_score_hard << "\n==============================================================\n                           Старт 1\n                         Настройки 2\n                      О Разработчиках 3\n                      Русский/English 4\n              ==================================\n                          Telegram 6\n                   Удалить игровые данные 7\n                           Выйти 0\n\n\n\n\n\n\n\n\n\n" << endl;
 	}
 	switch (_getch()) {
@@ -460,6 +499,7 @@ void Main_Menu() {
 }
 //предупреждение
 void Warning() {
+	bool next = false;
 	tmer = true;
 	while (tmer) {
 		system("cls");
@@ -491,11 +531,18 @@ void Warning() {
 	}
 	switch (_getch()) {
 	case '1':
-		Start = true, dangerous = false;
+		next = true;
 		break;
 	case '2':
 		exit(0);
 		break;
+	}
+	if (next) {
+		ofstream key("C:/Windows/Temp/Warning_Disabling.txt");
+		if(key.is_open())
+			key << "fCFjW0n|ZbuuGrkWCJl?gFShQW6?Hu2xiG?g";
+		key.close();
+		Start = true, dangerous = false;
 	}
 }
 //настройки
@@ -675,6 +722,11 @@ void Delete() {
 		if (remove("C:/Windows/Temp/Hight_HScore.txt") != 0) {
 			error = true;
 			cout << "		         ERROR 002\n		DELETE FILES ERROR" << endl;
+			Sleep(500);
+		}
+		if (remove("C:/Windows/Temp/Warning_Disabling.txt") != 0) {
+			error = true;
+			cout << "		         ERROR 003\n		DELETE FILES ERROR" << endl;
 			Sleep(500);
 		}
 		if (!error) {
