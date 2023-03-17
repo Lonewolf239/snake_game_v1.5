@@ -8,11 +8,11 @@
 using namespace std;
 
 //основные игровые параметры
-bool GameOver, PlayerWin, Start = false, Language = true, First_start = true, wall_killing = true, dangerous = true, tmer = false, de1eting_file = false, help = true;
+bool GameOver, PlayerWin, Start = false, Language = true, First_start = true, wall_killing = true, dangerous = true, tmer = false, de1eting_file = false, help = true, wasd = true;
 const int width = 40, height = 20;
 int x = height / 2, y = width / 2, Super_Fruit_Spawn = rand() % 20, FruitX = rand() % 19, FruitY = rand() % 39, Super_FruitX = rand() % 19, Super_FruitY = rand() % 39, score = 0, level = 55, last_score_easily, last_score_medium, last_score_hard, seconds = 5, dificult = 1, win;
 float  factor = 1.5;
-int tailX[350], tailY[350], nTail;
+int tailX[350], tailY[350], nTail, direct;
 enum nDirection { STOP = 0, LEFT, RIGHT, UP, DOWN };
 nDirection dir;
 string warning_key;
@@ -291,53 +291,29 @@ void Logic() {
 //управление
 void Input() {
 	if (_kbhit()) {
-		switch (_getch()) {
-		case 'a':
+		direct = _getch();
+		if (direct == 65 || direct == 97 || direct == 228 || direct == 148) {
 			if (dir == RIGHT)
-				break;
+				return;
 			dir = LEFT;
-			break;
-		case 'd':
+		}
+		if (direct == 68 || direct == 100 || direct == 162 || direct == 130) {
 			if (dir == LEFT)
-				break;
+				return;
 			dir = RIGHT;
-			break;
-		case 's':
+		}
+		if (direct == 83 || direct == 115 || direct == 235 || direct == 155) {
 			if (dir == UP)
-				break;
+				return;
 			dir = DOWN;
-			break;
-		case 'w':
+		}
+		if (direct == 87 || direct == 119 || direct == 230 || direct == 150) {
 			if (dir == DOWN)
-				break;
+				return;
 			dir = UP;
-			break;
-		case 'x':
+		}
+		if (direct == 88 || direct == 120 || direct == 151 || direct == 231) {
 			GameOver = true;
-			break;
-		case 'A':
-			if (dir == RIGHT)
-				break;
-			dir = LEFT;
-			break;
-		case 'D':
-			if (dir == LEFT)
-				break;
-			dir = RIGHT;
-			break;
-		case 'S':
-			if (dir == UP)
-				break;
-			dir = DOWN;
-			break;
-		case 'W':
-			if (dir == DOWN)
-				break;
-			dir = UP;
-			break;
-		case 'X':
-			GameOver = true;
-			break;
 		}
 	}
 }
@@ -423,11 +399,11 @@ void Main_Menu() {
 		hightscoreH >> hight_score_hard;
 	hightscoreH.close();
 	if (Language) {
-		cout << "                  Snake_Game_v1.4.4" << endl;
+		cout << "                  Snake_Game_v1.4.5" << endl;
 		cout << "====================================================\n                      Main menu\n====================================================\n                     High score:\n                       Easy: " << hight_score_easily << "\n                      Medium: " << hight_score_medium << "\n                       Hard: " << hight_score_hard << "\n====================================================\n                       Start 1\n                      Settings 2\n                About the developers 3\n                  Русский/English 4\n              =========================\n                      Telegram 6\n                  Delete game data 7\n                       Exit 0\n\n\n\n\n\n\n\n\n\n" << endl;
 	}
 	if (!Language) {
-		cout << "                     Snake_Game_v1.4.4" << endl;
+		cout << "                     Snake_Game_v1.4.5" << endl;
 		cout << "==============================================================\n                        Главное меню\n==============================================================\n                        Лучший счёт:\n                          Легко: " << hight_score_easily << "\n                        Нормально: " << hight_score_medium << "\n                         Сложно: " << hight_score_hard << "\n==============================================================\n                           Старт 1\n                         Настройки 2\n                      О Разработчиках 3\n                      Русский/English 4\n              ==================================\n                          Telegram 6\n                   Удалить игровые данные 7\n                           Выйти 0\n\n\n\n\n\n\n\n\n\n" << endl;
 	}
 	switch (_getch()) {
